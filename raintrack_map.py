@@ -1,0 +1,22 @@
+from pymaps import *
+
+
+if __name__ == "__main__":
+    import sys
+    
+    g = PyMap()                         # creates an icon & map by default
+    icon2 = Icon('icon2')               # create an additional icon
+    icon2.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png" # for testing only!
+    icon2.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png" # do not hotlink from your web page!
+    g.addicon(icon2)
+    g.key = "ABQIAAAALaTde9gMqHnzLPW58lcFTBRVCP9UC649_MmcUms9CnYxhjIH6hSvAPhEnL5l4nj4RN0QcnwWguiPIg" # you will get your own key
+    g.maps[0].zoom = 5
+    q = [1,1]                           # create a marker with the defaults
+    r = [2,2,'banana','icon2']                # icon2.id, specify the icon but no text
+    s = [3,3,'hello, <u>world</u>']     # don't specify an icon & get the default
+    g.maps[0].setpoint(q)               # add the points to the map
+    g.maps[0].setpoint(r)
+    g.maps[0].setpoint(s)
+    
+##    print g.showhtml()
+    open('test.htm','wb').write(g.showhtml())   # generate test file
