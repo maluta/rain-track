@@ -1,0 +1,95 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title></title>
+    
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=" type="text/javascript"></script>
+        <script type="text/javascript">
+        //<![CDATA[
+        function load() {
+            if (GBrowserIsCompatible()) {
+                
+            
+            function Point(lat,long,html,icon) {
+                  this.gpoint = new GMarker(new GLatLng(lat,long),icon);
+                  this.html = html;
+                  
+               }               
+               
+               
+               function Map(id,points,lat,long,zoom) {
+                  this.id = id;
+                  this.points = points;
+                  this.gmap = new GMap2(document.getElementById(this.id));
+                  this.gmap.setCenter(new GLatLng(-23.58992, -46.66208), zoom);
+                  this.markerlist = markerlist;
+                  this.addmarker = addmarker;
+                  this.array2points = array2points;
+                   
+                  function markerlist(array) {
+                     for (var i in array) {
+                        this.addmarker(array[i]);
+                     }
+                  }
+                  
+                  function array2points(map_points) {            
+                      for (var i in map_points) {  
+                        points[i] = new Point(map_points[i][0],map_points[i][1],map_points[i][2],map_points[i][3]);         }
+                      return points;   
+                    }                  
+                  
+                  function addmarker(point) {
+                     if (point.html) {
+                       GEvent.addListener(point.gpoint, "click", function() { // change click to mouseover or other mouse action
+                           point.gpoint.openInfoWindowHtml(point.html);
+                        
+                       });
+                       
+                     }
+                     this.gmap.addOverlay(point.gpoint);  
+                  }
+                  this.points = array2points(this.points);
+                  this.markerlist(this.points);
+            }  
+                     
+                var icon = new GIcon(); 
+                icon.image = "";
+                icon.shadow = "";
+                icon.iconSize = new GSize(12, 20);
+                icon.shadowSize = new GSize(22, 20);
+                icon.iconAnchor = new GPoint(6, 20);
+                icon.infoWindowAnchor = new GPoint(5, 1);
+         
+                var icon2 = new GIcon(); 
+                icon2.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png";
+                icon2.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
+                icon2.iconSize = new GSize(12, 20);
+                icon2.shadowSize = new GSize(22, 20);
+                icon2.iconAnchor = new GPoint(6, 20);
+                icon2.infoWindowAnchor = new GPoint(5, 1);
+        
+                    map_points = [[-23.589919999999999, -46.662080000000003, 'chuva forte'], [-23.589700000000001, -46.662880000000001, 'chuva fraca'], [-23.589200000000002, -46.66328, 'sem chuva']];
+             var map = new Map('map',map_points,0,0,15);
+        
+
+           map.gmap.addControl(new GMapTypeControl());
+
+           map.gmap.addControl(new GSmallMapControl());
+
+
+            }
+        }
+        //]]>
+        </script>
+        
+        
+        
+  </head>
+
+  <body onload="load()" onunload="GUnload()">
+    <div id="map" style="width: 1000px; height: 600px"></div>
+  </body>
+</html>
