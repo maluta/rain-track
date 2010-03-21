@@ -47,7 +47,7 @@ class Map:
         self.width    = "500px"  # map div width
         self.height   = "300px"  # map div height
         self.center   = (0,0)     # center map latitude coordinate
-        self.zoom        = "1"   # zoom level
+        self.zoom        = "17"   # zoom level
         self.navcontrols  =   True   # show google map navigation controls
         self.mapcontrols  =   True   # show toogle map type (sat/map/hybrid) controls
         if pointlist == None:
@@ -73,11 +73,13 @@ class PyMap:
     
     def __init__(self, key=None, maplist=None, iconlist=None):
         """ Default values """
-        self.key      = "ABQIAAAAQQRAsOk3uqvy3Hwwo4CclBTrVPfEE8Ms0qPwyRfPn-DOTlpaLBTvTHRCdf2V6KbzW7PZFYLT8wFD0A"      # set your google key
+        self.key      = ""      # set your google key
         if maplist == None:
             self.maps = [Map()]
+	    print "nao entrou",self.maps
         else:
             self.maps = maplist
+	    print "entrou"
         if iconlist == None:
             self.icons = [Icon()]
         else:
@@ -155,6 +157,7 @@ class PyMap:
     def _buildmaps(self):
         js = ""
         for i in self.maps:
+	    print i
             js = js + self._mapjs(i)+'\n'
         return js
 
@@ -179,7 +182,7 @@ class PyMap:
                   this.id = id;
                   this.points = points;
                   this.gmap = new GMap2(document.getElementById(this.id));
-                  this.gmap.setCenter(new GLatLng(lat, long), zoom);
+                  this.gmap.setCenter(new GLatLng(%s, %s), zoom);
                   this.markerlist = markerlist;
                   this.addmarker = addmarker;
                   this.array2points = array2points;
@@ -217,10 +220,14 @@ class PyMap:
         </script>
         
         
-        """ % (self.key, self._buildicons(),self._buildmaps())
+        """ % (self.key, self.setLat(), self.setLong(), self._buildicons(),self._buildmaps())
         return self.js 
     
-    
+    def setLat(self):
+    	return "-23.58992"
+	
+    def setLong(self):
+	return "-46.66208"
         
     def showhtml(self):
         """returns a complete html page with a map"""
