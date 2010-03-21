@@ -38,49 +38,29 @@ class MainHandler(webapp.RequestHandler):
 			# tratar erro
 
 		geo_list = {}
-		comment_list = []
+		self.comment_list = []
 		self.map_points = []
 		points = []
-	
+		count=0
+
 		# Added geoLocation info
 		for place in lugares:
 		#	print "place",place
 			location = GeoLocation()
 			s = place['address']
-#			print s
 			geo_list = location.getGeoLocation(s)
 			# save the comment list too
-			comment_list.append(place['comment'])
-			
-
-		count=0
-
-		for i in lugares:
+			self.comment_list.append(place['comment'])
 	
 			points.append(geo_list['latitude']) # lat
 			points.append(geo_list['longitude']) # lng
-#			points.append(comment_list[i]) # comment
+
 
 			count +=1
-
-
-		for i in range(count):
-
-			l = points[i]
-			ll = points[i+1]
-
-#			print l
-#			print ll
+			
+		self.map_points = points
 		
-			self.map_points.append(l)
-			self.map_points.append(ll)
-
-			i+=2
-
 		self.createMap()
-
-		#self.response.out.write('Address: ' + place['address'] + '<br />')
-		#self.response.out.write('Comment: ' + place['comment'] + '<br /><br />')
 
     # ------------------------------------------
     
@@ -102,9 +82,12 @@ class MainHandler(webapp.RequestHandler):
  
 #		print self.map_points
 
+		c=0
 		for i in range(0,len(self.map_points),2):
 		# a função setpoint recebe [lat,long,..,..] (no minimo os 2 primeiros)
-			x=self.map_points[i:i+2]
+			x = self.map_points[i:i+2]
+			x.append(self.comment_list[c])
+			c+=1
 			g.maps[0].setpoint(x) 
 
 		q = [-21.58992, -26.66208, '#raintrack'] # test only
