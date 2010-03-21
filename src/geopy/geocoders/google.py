@@ -90,9 +90,9 @@ class Google(Geocoder):
             status_code = int(util.get_first_text(status[0], 'code'))
             self.check_status_code(status_code)
         
-'''        if exactly_one and len(places) != 1:
-            raise ValueError("Didn't find exactly one placemark! " \
-                             "(Found %d.)" % len(places))'''
+#        if exactly_one and len(places) != 1:
+#            raise ValueError("Didn't find exactly one placemark! " \
+#                             "(Found %d.)" % len(places))'''
         
         def parse_place(place):
             location = util.get_first_text(place, ['address', 'name']) or None

@@ -49,23 +49,27 @@ class MainHandler(webapp.RequestHandler):
 		#	print s
 			geo_list = location.getGeoLocation(s)
 			# save the comment list too
-#			comment_list.append(place['comment'])
-			break 
+			comment_list.append(place['comment'])
+			
 
-#	for i in len(lugares):
+		count=0
+
+		for i in lugares:
 	
-#		points.append(geo_list[i]['latitude']) # lat
-#		points.append(geo_list[i]['longitude']) # lng
-#		points.append(comment_list[i]) # comment
+			points.append(geo_list['latitude']) # lat
+			points.append(geo_list['longitude']) # lng
+#			points.append(comment_list[i]) # comment
+
+			count +=1
 
 
-#		print comment_list[0]
-		l = geo_list['latitude']
-		ll = geo_list['longitude']
-#		self.map_point.append(points)
+		for i in range(count):
 
-		self.map_points.append(l);
-		self.map_points.append(ll);
+			l = geo_list['latitude']
+			ll = geo_list['longitude']
+		
+			self.map_points.append(l)
+			self.map_points.append(ll)
 
 		self.createMap()
 
@@ -90,7 +94,17 @@ class MainHandler(webapp.RequestHandler):
     
 		g.maps[0].zoom = 15 # ...
     
-		g.maps[0].setpoint(self.map_points)               # add the points to the map
+    		l = []
+		v = len(self.map_points)/2;
+
+		for i in range(v):
+
+			l.append(self.map_points[i])
+			l.append(self.map_points[i+1])
+
+			g.maps[0].setpoint(l)               # add the points to the map
+
+			l = []
     
 		self.response.out.write(g.showhtml())   
     
