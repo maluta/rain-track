@@ -19,31 +19,64 @@
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from pymaps import *
+from raintracktwitter import *
+from geopy import geocoders  
+from geolocation import * 
 
 class MainHandler(webapp.RequestHandler):
 
   def get(self):
-    self.response.headers['Content-Type'] = 'text/html'
-    q = [-23.58992, -46.66208, 'chuva forte']
-    r = [-23.58970, -46.66288, 'chuva fraca']
-    s = [-23.58920, -46.66328, 'sem chuva']
+    
+	twitt = RaintrackTwitter().getPlaces()
 
-    key = "ABQIAAAALaTde9gMqHnzLPW58lcFTBRVCP9UC649_MmcUms9CnYxhjIH6hSvAPhEnL5l4nj4RN0QcnwWguiPIg" # you will get your own key
+	if twitt == None:
+		pass
+		# tratar erro
+
+	geo_list = []
+	comment_list = []
+	self.map_point = []
+	points = []
+	
+	# Added geoLocation info
+	for place in places:	
+		location = GeoLocation() 
+		geo_list.append(location.getGeoLocation(place['address']))
+		# save the comment list too
+		comment_list.append(place['comment'])
+
+	for i in len(places):
+	
+		points.append(geo_list[i]['latitude']) # lat
+		points.append(geo_list[i]['longitude']) # lng
+		points.append(comment_list[i]) # comment
+
+		self.map_point.append(points)
+
+	createMap()
+		
+
+		#self.response.out.write('Address: ' + place['address'] + '<br />')
+		#self.response.out.write('Comment: ' + place['comment'] + '<br /><br />')
+
+    # ------------------------------------------
     
-    g = PyMap(key)                         # creates an icon & map by default
-    icon2 = Icon('icon2')               # create an additional icon
-    icon2.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png" # for testing only!
-    icon2.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png" # do not hotlink from your web page!
-    g.addicon(icon2)
+def createMap(self):    
+	self.response.headers['Content-Type'] = 'text/html'
+	key = "ABQIAAAALaTde9gMqHnzLPW58lcFTBRVCP9UC649_MmcUms9CnYxhjIH6hSvAPhEnL5l4nj4RN0QcnwWguiPIg" # you will get your own key
     
-    g.maps[0].zoom = 15
+	g = PyMap(key)                         # creates an icon & map by default
+	icon2 = Icon('icon2')               # create an additional icon
+	icon2.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png" # for testing only!
+	icon2.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png" # do not hotlink from your web page!
+	g.addicon(icon2)
     
-    g.maps[0].setpoint(q)               # add the points to the map
-    g.maps[0].setpoint(r)
-    g.maps[0].setpoint(s)
+	g.maps[0].zoom = 15 # ...
     
-#    open('test.htm','wb').write(g.showhtml())   # generate test file
-    self.response.out.write(g.showhtml())   
+	for i in len(self.map_points):
+		g.maps[0].setpoint(self.map_points[i])               # add the points to the map
+    
+	self.response.out.write(g.showhtml())   
     
     # generate test file
 
