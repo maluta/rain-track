@@ -25,6 +25,7 @@ class MainPage(webapp.RequestHandler):
       self.response.out.write('Comment: ' + place['comment'] + '<br /><br />')
 
 
+
 # --------------------------------------------------------------------------- #
 # Application
 # --------------------------------------------------------------------------- #

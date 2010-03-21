@@ -27,9 +27,11 @@ class MainHandler(webapp.RequestHandler):
 
   def get(self):
     
-	twitt = RaintrackTwitter().getPlaces()
+	places = RaintrackTwitter().getPlaces()
 
-	if twitt == None:
+	print places
+
+	if places == None:
 		pass
 		# tratar erro
 
@@ -45,6 +47,7 @@ class MainHandler(webapp.RequestHandler):
 		# save the comment list too
 		comment_list.append(place['comment'])
 
+'''
 	for i in len(places):
 	
 		points.append(geo_list[i]['latitude']) # lat
@@ -54,7 +57,7 @@ class MainHandler(webapp.RequestHandler):
 		self.map_point.append(points)
 
 	createMap()
-		
+'''		
 
 		#self.response.out.write('Address: ' + place['address'] + '<br />')
 		#self.response.out.write('Comment: ' + place['comment'] + '<br /><br />')
