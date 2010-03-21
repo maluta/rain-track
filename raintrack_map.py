@@ -16,9 +16,6 @@ if __name__ == "__main__":
     g.addicon(icon2)
     
     g.maps[0].zoom = 15
-    # create a marker with the defaults
-#    r = [2,2,'banana','icon2']                # icon2.id, specify the icon but no text
-#    s = [3,3,'hello, <u>world</u>']     # don't specify an icon & get the default
     
     g.maps[0].setpoint(q)               # add the points to the map
     g.maps[0].setpoint(r)
