@@ -2,6 +2,7 @@ import re
 import logging
 import htmlentitydefs
 import xml.dom.minidom
+import sys
 from xml.parsers.expat import ExpatError
 
 try:

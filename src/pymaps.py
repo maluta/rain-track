@@ -50,7 +50,10 @@ class Map:
         self.zoom        = "17"   # zoom level
         self.navcontrols  =   True   # show google map navigation controls
         self.mapcontrols  =   True   # show toogle map type (sat/map/hybrid) controls
-        if pointlist == None:
+        self.latitude = 0
+	self.longitude = 0
+
+	if pointlist == None:
             self.points = []   # empty point list
         else:
             self.points = pointlist   # supplied point list
@@ -220,14 +223,20 @@ class PyMap:
         </script>
         
         
-        """ % (self.key, self.setLat(), self.setLong(), self._buildicons(),self._buildmaps())
+        """ % (self.key, self.getLat(), self.getLong(), self._buildicons(),self._buildmaps())
         return self.js 
-    
-    def setLat(self):
-    	return "-23.58992"
+
+    def setLat(self,p):
+    	self.latitude = p
 	
-    def setLong(self):
-	return "-46.66208"
+    def setLong(self,p):
+    	self.longitude = p
+    
+    def getLat(self):
+    	return self.latitude
+	
+    def getLong(self):
+	return self.longitude
         
     def showhtml(self):
         """returns a complete html page with a map"""

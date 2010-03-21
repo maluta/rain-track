@@ -13,6 +13,7 @@ class GeoLocation:
 	def getGeoLocation(self, address):
 		g = geocoders.Google(APIKEY);
 		# fazer try - catch
+#		print "(",address,")"
 		place, (lat, lng) = g.geocode(address)
 		return { 'latitude':lat , 'longitude':lng  } 
 		

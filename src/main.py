@@ -25,61 +25,74 @@ from geolocation import *
 
 class MainHandler(webapp.RequestHandler):
 
-  def get(self):
+	def get(self):
     
-	places = RaintrackTwitter().getPlaces()
+		lugares = RaintrackTwitter().getPlaces()
 
-	print places
+		#print lugares
 
-	if places == None:
-		pass
-		# tratar erro
+		if lugares == None:
+		#	print ".."
+			pass
+			# tratar erro
 
-	geo_list = []
-	comment_list = []
-	self.map_point = []
-	points = []
+		geo_list = {}
+		comment_list = []
+		self.map_points = []
+		points = []
 	
-	# Added geoLocation info
-	for place in places:	
-		location = GeoLocation() 
-		geo_list.append(location.getGeoLocation(place['address']))
-		# save the comment list too
-		comment_list.append(place['comment'])
+		# Added geoLocation info
+		for place in lugares:
+		#	print "place",place
+			location = GeoLocation()
+			s = place['address']
+		#	print s
+			geo_list = location.getGeoLocation(s)
+			# save the comment list too
+#			comment_list.append(place['comment'])
+			break 
 
-'''
-	for i in len(places):
+#	for i in len(lugares):
 	
-		points.append(geo_list[i]['latitude']) # lat
-		points.append(geo_list[i]['longitude']) # lng
-		points.append(comment_list[i]) # comment
+#		points.append(geo_list[i]['latitude']) # lat
+#		points.append(geo_list[i]['longitude']) # lng
+#		points.append(comment_list[i]) # comment
 
-		self.map_point.append(points)
 
-	createMap()
-'''		
+#		print comment_list[0]
+		l = geo_list['latitude']
+		ll = geo_list['longitude']
+#		self.map_point.append(points)
+
+		self.map_points.append(l);
+		self.map_points.append(ll);
+
+		self.createMap()
 
 		#self.response.out.write('Address: ' + place['address'] + '<br />')
 		#self.response.out.write('Comment: ' + place['comment'] + '<br /><br />')
 
     # ------------------------------------------
     
-def createMap(self):    
-	self.response.headers['Content-Type'] = 'text/html'
-	key = "ABQIAAAALaTde9gMqHnzLPW58lcFTBRVCP9UC649_MmcUms9CnYxhjIH6hSvAPhEnL5l4nj4RN0QcnwWguiPIg" # you will get your own key
+	def createMap(self):    
+		self.response.headers['Content-Type'] = 'text/html'
+		key = "ABQIAAAALaTde9gMqHnzLPW58lcFTBRVCP9UC649_MmcUms9CnYxhjIH6hSvAPhEnL5l4nj4RN0QcnwWguiPIg" # you will get your own key
     
-	g = PyMap(key)                         # creates an icon & map by default
-	icon2 = Icon('icon2')               # create an additional icon
-	icon2.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png" # for testing only!
-	icon2.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png" # do not hotlink from your web page!
-	g.addicon(icon2)
+		g = PyMap(key)                         # creates an icon & map by default
+		
+		g.setLat(self.map_points[0])
+		g.setLong(self.map_points[1])
+
+		icon2 = Icon('icon2')               # create an additional icon
+		icon2.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png" # for testing only!
+		icon2.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png" # do not hotlink from your web page!
+		g.addicon(icon2)
     
-	g.maps[0].zoom = 15 # ...
+		g.maps[0].zoom = 15 # ...
     
-	for i in len(self.map_points):
-		g.maps[0].setpoint(self.map_points[i])               # add the points to the map
+		g.maps[0].setpoint(self.map_points)               # add the points to the map
     
-	self.response.out.write(g.showhtml())   
+		self.response.out.write(g.showhtml())   
     
     # generate test file
 
