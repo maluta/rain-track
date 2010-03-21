@@ -29,7 +29,8 @@ class MainHandler(webapp.RequestHandler):
     
 		lugares = RaintrackTwitter().getPlaces()
 
-		#print lugares
+#		print "lugares-----------"
+#		print lugares
 
 		if lugares == None:
 		#	print ".."
@@ -46,7 +47,7 @@ class MainHandler(webapp.RequestHandler):
 		#	print "place",place
 			location = GeoLocation()
 			s = place['address']
-		#	print s
+#			print s
 			geo_list = location.getGeoLocation(s)
 			# save the comment list too
 			comment_list.append(place['comment'])
@@ -65,11 +66,16 @@ class MainHandler(webapp.RequestHandler):
 
 		for i in range(count):
 
-			l = geo_list['latitude']
-			ll = geo_list['longitude']
+			l = points[i]
+			ll = points[i+1]
+
+#			print l
+#			print ll
 		
 			self.map_points.append(l)
 			self.map_points.append(ll)
+
+			i+=2
 
 		self.createMap()
 
@@ -92,20 +98,18 @@ class MainHandler(webapp.RequestHandler):
 		icon2.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png" # do not hotlink from your web page!
 		g.addicon(icon2)
     
-		g.maps[0].zoom = 15 # ...
-    
-    		l = []
-		v = len(self.map_points)/2;
+		g.maps[0].zoom = 8	# ...
+ 
+#		print self.map_points
 
-		for i in range(v):
+		for i in range(0,len(self.map_points),2):
+		# a função setpoint recebe [lat,long,..,..] (no minimo os 2 primeiros)
+			x=self.map_points[i:i+2]
+			g.maps[0].setpoint(x) 
 
-			l.append(self.map_points[i])
-			l.append(self.map_points[i+1])
+		q = [-21.58992, -26.66208, '#raintrack'] # test only
+		g.maps[0].setpoint(q) 
 
-			g.maps[0].setpoint(l)               # add the points to the map
-
-			l = []
-    
 		self.response.out.write(g.showhtml())   
     
     # generate test file

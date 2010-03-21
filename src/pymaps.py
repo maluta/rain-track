@@ -47,7 +47,7 @@ class Map:
         self.width    = "500px"  # map div width
         self.height   = "300px"  # map div height
         self.center   = (0,0)     # center map latitude coordinate
-        self.zoom        = "17"   # zoom level
+        self.zoom        = "2"   # zoom level
         self.navcontrols  =   True   # show google map navigation controls
         self.mapcontrols  =   True   # show toogle map type (sat/map/hybrid) controls
         self.latitude = 0
@@ -64,6 +64,7 @@ class Map:
     
     def setpoint(self, point):
         """ Add a point (lat,long,html,icon) """
+#	print point
         self.points.append(point)
 
 class PyMap:
