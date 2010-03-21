@@ -90,8 +90,8 @@ class MainHandler(webapp.RequestHandler):
 			c+=1
 			g.maps[0].setpoint(x) 
 
-		q = [-21.58992, -26.66208, '#raintrack'] # test only
-		g.maps[0].setpoint(q) 
+#		q = [-21.58992, -26.66208, '#raintrack'] # test only
+#		g.maps[0].setpoint(q) 
 
 		self.response.out.write(g.showhtml())   
     
