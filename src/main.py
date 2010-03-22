@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 #
 # Copyright 2007 Google Inc.
@@ -20,6 +21,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 from pymaps import *
 from raintracktwitter import *
+from raintrackmeme import *
 from geopy import geocoders  
 from geolocation import * 
 
@@ -27,15 +29,13 @@ class MainHandler(webapp.RequestHandler):
 
 	def get(self):
     
-		lugares = RaintrackTwitter().getPlaces()
 
-#		print "lugares-----------"
-#		print lugares
+		# xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+		places_twitter = RaintrackTwitter().getPlaces()
+#		places_twitter = RaintrackMeme().getPlaces() 
 
-		if lugares == None:
-		#	print ".."
+		if places_twitter == None:
 			pass
-			# tratar erro
 
 		geo_list = {}
 		self.comment_list = []
@@ -44,8 +44,7 @@ class MainHandler(webapp.RequestHandler):
 		count=0
 
 		# Added geoLocation info
-		for place in lugares:
-		#	print "place",place
+		for place in places_twitter:
 			location = GeoLocation()
 			s = place['address']
 			geo_list = location.getGeoLocation(s)
@@ -54,12 +53,19 @@ class MainHandler(webapp.RequestHandler):
 	
 			points.append(geo_list['latitude']) # lat
 			points.append(geo_list['longitude']) # lng
-
-
+			
 			count +=1
 			
 		self.map_points = points
-		
+
+
+    # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+#		places_meme = RaintrackMeme().getPlaces() 
+
+    # ------------------------------------------
+
+
 		self.createMap()
 
     # ------------------------------------------
