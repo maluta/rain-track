@@ -77,7 +77,7 @@ class PyMap:
     
     def __init__(self, key=None, maplist=None, iconlist=None):
         """ Default values """
-        self.key      = ""      # set your google key
+        self.key      = "ABQIAAAAACsLwZOSYc-_FsQ-H_0uGBRlOb26qSyU154aZeLwOrF4C7-DphRAQ6j2zPzZSsgdymxmiQGql6gz3w"      # set your google key
         if maplist == None:
             self.maps = [Map()]
 	    #print "nao entrou",self.maps

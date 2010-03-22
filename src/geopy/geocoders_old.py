@@ -27,10 +27,7 @@ except ImportError:
     util.logger.warn("BeautifulSoup was not found. " \
           "Geocoders assuming malformed markup will not work.")
 
-try:
-    import json as simplejson
-except ImportError:
-    import simplejson
+from django.utils import simplejson
 
 class Geocoder(object):
     """Base class for all geocoders."""
